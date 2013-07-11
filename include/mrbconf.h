@@ -84,4 +84,10 @@
 # define TRUE 1
 #endif
 
+/* verix definitions */
+// verix
+# define inline __inline
+# define isnan(x) (x != x)
+# define isinf(x) (!isnan(x) && isnan(x-x))
+
 #endif  /* MRUBYCONF_H */

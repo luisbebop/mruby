@@ -1,6 +1,8 @@
 MRuby::Build.new do |conf|
   # load specific toolchain settings
-  toolchain :gcc
+  toolchain :verix
+  
+  conf.bins = %w(mrbc)
 
   # Use mrbgems
   # conf.gem 'examples/mrbgems/ruby_extension_example'
@@ -12,7 +14,7 @@ MRuby::Build.new do |conf|
   # conf.gem :git => 'git@github.com:masuidrive/mrbgems-example.git', :branch => 'master', :options => '-v'
 
   # include the default GEMs
-  conf.gembox 'default'
+  # conf.gembox 'default'
 
   # C compiler settings
   # conf.cc do |cc|
