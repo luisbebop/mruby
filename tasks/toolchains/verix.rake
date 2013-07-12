@@ -37,7 +37,7 @@ MRuby::Toolchain.new(:verix) do |conf|
   end
   
   conf.archiver do |archiver|
-    archiver.command = ENV['AR'] || 'armar.exei'
+    archiver.command = ENV['AR'] || 'armar.exe'
     archiver.archive_options = '-rv %{outfile} %{objs}'
   end
   

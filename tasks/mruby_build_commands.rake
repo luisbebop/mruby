@@ -181,7 +181,24 @@ module MRuby
       if MRUBY_BUILD_HOST_IS_CYGWIN
         _run archive_options, { :outfile => cygwin_filename(outfile), :objs => cygwin_filename(objfiles).join(' ') }
       else
-        puts ">>>#{filename(objfiles).join(' ')}"
+        
+        # fix to archive objects with the same name in a lib. some old archivers like armar.exe
+        # overwrite objects with the same name
+        names = []
+        name  = ""
+        prefix = "A"
+        objfiles.map! do |objfile|
+          name = objfile
+          base_name = File.basename(objfile)
+          if names.include?(base_name)
+            new_name = objfile.gsub(base_name, "#{prefix.next!}#{base_name}")
+            File.rename(objfile, new_name)
+            name = new_name
+          end
+          names << base_name
+          name
+        end
+        
         _run archive_options, { :outfile => filename(outfile), :objs => filename(objfiles).join(' ') }
       end
     end
