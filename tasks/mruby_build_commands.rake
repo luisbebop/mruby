@@ -181,6 +181,7 @@ module MRuby
       if MRUBY_BUILD_HOST_IS_CYGWIN
         _run archive_options, { :outfile => cygwin_filename(outfile), :objs => cygwin_filename(objfiles).join(' ') }
       else
+        puts ">>>#{filename(objfiles).join(' ')}"
         _run archive_options, { :outfile => filename(outfile), :objs => filename(objfiles).join(' ') }
       end
     end
