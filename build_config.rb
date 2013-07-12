@@ -1,6 +1,6 @@
 MRuby::Build.new do |conf|
   # load specific toolchain settings
-  toolchain :verix
+  toolchain :vs2012
   
   conf.bins = %w(mrbc)
 
@@ -14,7 +14,7 @@ MRuby::Build.new do |conf|
   # conf.gem :git => 'git@github.com:masuidrive/mrbgems-example.git', :branch => 'master', :options => '-v'
 
   # include the default GEMs
-  # conf.gembox 'default'
+  conf.gembox 'simple'
 
   # C compiler settings
   # conf.cc do |cc|
@@ -72,6 +72,14 @@ MRuby::Build.new do |conf|
 
   # file separetor
   # conf.file_separator = '/'
+end
+
+MRuby::CrossBuild.new('verix') do |conf|
+  toolchain :verix
+  
+  # conf.cc.defines = %w(DISABLE_STDIO)
+  conf.bins = []
+  conf.gembox 'simple'
 end
 
 # Define cross build settings

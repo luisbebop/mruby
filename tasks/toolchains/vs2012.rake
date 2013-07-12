@@ -3,7 +3,7 @@ MRuby::Toolchain.new(:vs2012) do |conf|
     cc.command = ENV['CC'] || 'cl.exe'
     cc.flags = [ENV['CFLAGS'] || %w(/c /nologo /W3 /D_DEBUG /MDd /Zi /Od /RTC1 /DHAVE_STRING_H /DNO_GETTIMEOFDAY /D_CRT_SECURE_NO_WARNINGS)]
     cc.include_paths = ["#{MRUBY_ROOT}/include"]
-    cc.defines = %w(DISABLE_GEMS)
+    cc.defines = %w()
     cc.option_include_path = '/I%s'
     cc.option_define = '/D%s'
     cc.compile_options = "%{flags} /Fo%{outfile} %{infile}"

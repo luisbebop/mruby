@@ -1,0 +1,4 @@
+MRuby::GemBox.new do |conf|
+  # Use standard print/puts/p
+  conf.gem :core => "mruby-print"
+end

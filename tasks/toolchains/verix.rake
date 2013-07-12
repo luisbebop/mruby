@@ -18,7 +18,7 @@ MRuby::Toolchain.new(:verix) do |conf|
     cc.command = ENV['CC'] || 'c:\\VerixVAps\\VFSDK\\bin\\vrxcc'
     cc.flags = [ENV['CFLAGS'] || []]
     cc.include_paths = ["#{MRUBY_ROOT}/include", "c:\\VerixVAps\\ACT2000\\include", "c:\\VerixVAps\\UCL\\include", "c:\\VerixVAps\\TCPIP\\include", "c:\\VerixVAps\\CardSlot\\include"]
-    cc.defines = %w(DISABLE_GEMS)
+    cc.defines = %w()
     cc.option_include_path = '-I%s'
     cc.option_define = '-D%s'
     cc.compile_options = '%{flags} -o %{outfile} -c %{infile}'
@@ -37,8 +37,8 @@ MRuby::Toolchain.new(:verix) do |conf|
   end
   
   conf.archiver do |archiver|
-    archiver.command = ENV['AR'] || 'armar.exe'
-    archiver.archive_options = '-r %{outfile} %{objs}'
+    archiver.command = ENV['AR'] || 'armar.exei'
+    archiver.archive_options = '-rv %{outfile} %{objs}'
   end
   
   conf.exts do |exts|
