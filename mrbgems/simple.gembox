@@ -1,6 +1,6 @@
 MRuby::GemBox.new do |conf|
   # Use standard Kernel#sprintf method
-  conf.gem :core => "mruby-sprintf"
+  # conf.gem :core => "mruby-sprintf"
 
   # Use standard print/puts/p
   conf.gem :core => "mruby-print"
