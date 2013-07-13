@@ -2,6 +2,10 @@
 #include "mruby/string.h"
 #include <stdio.h>
 
+#ifdef ANDROID
+#include <android/log.h>
+#endif
+
 static void
 printstr(mrb_state *mrb, mrb_value obj)
 {
@@ -13,7 +17,11 @@ printstr(mrb_state *mrb, mrb_value obj)
     str = mrb_str_ptr(obj);
     s = str->ptr;
     len = str->len;
-    fwrite(s, len, 1, stdout);
+#ifdef ANDROID
+	__android_log_print(ANDROID_LOG_INFO, "mruby", s);
+#else
+	fwrite(s, len, 1, stdout);
+#endif
   }
 }
 
