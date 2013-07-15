@@ -12,7 +12,9 @@
 #include "mruby/string.h"
 #include "mruby/hash.h"
 #include "mruby/numeric.h"
-// #include <math.h>
+#ifndef VERIX
+#include <math.h>
+#endif
 #include <ctype.h>
 
 #ifdef HAVE_IEEEFP_H
