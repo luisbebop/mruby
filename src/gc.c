@@ -312,8 +312,8 @@ add_heap(mrb_state *mrb)
 void
 mrb_init_heap(mrb_state *mrb)
 {
-  mrb->heaps = 0;
-  mrb->free_heaps = 0;
+  mrb->heaps = NULL;
+  mrb->free_heaps = NULL;
   add_heap(mrb);
   mrb->gc_interval_ratio = DEFAULT_GC_INTERVAL_RATIO;
   mrb->gc_step_ratio = DEFAULT_GC_STEP_RATIO;
@@ -408,6 +408,20 @@ add_gray_list(mrb_state *mrb, struct RBasic *obj)
 }
 
 static void
+mark_context_stack(mrb_state *mrb, struct mrb_context *c)
+{
+  size_t i;
+  size_t e;
+
+  e = c->stack - c->stbase;
+  if (c->ci) e += c->ci->nregs;
+  if (c->stbase + e > c->stend) e = c->stend - c->stbase;
+  for (i=0; i<e; i++) {
+    mrb_gc_mark_value(mrb, c->stbase[i]);
+  }
+}
+
+static void
 mark_context(mrb_state *mrb, struct mrb_context *c)
 {
   size_t i;
@@ -415,12 +429,8 @@ mark_context(mrb_state *mrb, struct mrb_context *c)
   mrb_callinfo *ci;
 
   /* mark stack */
-  e = c->stack - c->stbase;
-  if (c->ci) e += c->ci->nregs;
-  if (c->stbase + e > c->stend) e = c->stend - c->stbase;
-  for (i=0; i<e; i++) {
-    mrb_gc_mark_value(mrb, c->stbase[i]);
-  }
+  mark_context_stack(mrb, c);
+
   /* mark ensure stack */
   e = (c->ci) ? c->ci->eidx : 0;
   for (i=0; i<e; i++) {
@@ -578,7 +588,7 @@ obj_free(mrb_state *mrb, struct RBasic *obj)
 
       if (e->cioff < 0) {
         mrb_free(mrb, e->stack);
-        e->stack = 0;
+        e->stack = NULL;
       }
     }
     break;
@@ -633,8 +643,8 @@ root_scan_phase(mrb_state *mrb)
   size_t i, e, j;
 
   if (!is_minor_gc(mrb)) {
-    mrb->gray_list = 0;
-    mrb->variable_gray_list = 0;
+    mrb->gray_list = NULL;
+    mrb->variable_gray_list = NULL;
   }
 
   mrb_gc_mark_gv(mrb);
@@ -759,6 +769,7 @@ incremental_marking_phase(mrb_state *mrb, size_t limit)
 static void
 final_marking_phase(mrb_state *mrb)
 {
+  mark_context_stack(mrb, mrb->root_c);
   while (mrb->gray_list) {
     if (is_gray(mrb->gray_list))
       gc_mark_children(mrb, mrb->gray_list);
@@ -767,7 +778,7 @@ final_marking_phase(mrb_state *mrb)
   }
   gc_assert(mrb->gray_list == NULL);
   mrb->gray_list = mrb->variable_gray_list;
-  mrb->variable_gray_list = 0;
+  mrb->variable_gray_list = NULL;
   while (mrb->gray_list) {
     if (is_gray(mrb->gray_list))
       gc_mark_children(mrb, mrb->gray_list);
