@@ -8,11 +8,13 @@ To compile the mruby for VeriFone Verix you have to use our default virtual box 
 ##Compilation instructions
 You can have to do a manual copy of the following include to the VFSDK includes:
 
-copy C:\Program Files\ARM\RVCT\Data\4.0\902\include\windows\stdint.h C:\VerixVAps\VFSDK\include\stdint.h
-copy C:\Program Files\ARM\RVCT\Data\4.0\902\include\windows\inttypes.h C:\VerixVAps\VFSDK\include\inttypes.h
+    copy C:\Program Files\ARM\RVCT\Data\4.0\902\include\windows\stdint.h C:\VerixVAps\VFSDK\include\stdint.h
+    copy C:\Program Files\ARM\RVCT\Data\4.0\902\include\windows\inttypes.h C:\VerixVAps\VFSDK\include\inttypes.h
 
-0. Open the "Visual Studio Command Prompt (2010)" on Window's start menu.
-1. Go to the mruby directory
-2. copy build_config_verix.rb build_config.rb
-3. make clean
-4. make all
+After that follow these instructions:
+
+    0. Open the "Visual Studio Command Prompt (2010)" on Window's start menu.
+    1. Go to the mruby directory
+    2. copy build_config_verix.rb build_config.rb
+    3. make clean
+    4. make all
